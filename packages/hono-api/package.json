@@ -1,0 +1,18 @@
+{
+	"name": "@minhoryang/hono-api",
+	"private": true,
+	"version": "0.0.1",
+	"scripts": {
+		"dev": "wrangler dev",
+		"clean": "rm -rf dist public/*",
+		"build": "wrangler build",
+		"deploy": "wrangler deploy --minify",
+		"cf-typegen": "wrangler types --env-interface CloudflareBindings"
+	},
+	"dependencies": {
+		"hono": "^4.7.7"
+	},
+	"devDependencies": {
+		"wrangler": "^4.4.0"
+	}
+}

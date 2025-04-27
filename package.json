@@ -1,0 +1,13 @@
+{
+	"name": "@minhoryang/monorepo-hono-react",
+	"private": true,
+	"workspaces": ["packages/*"],
+	"scripts": {
+		"@api": "yarn workspace @minhoryang/hono-api",
+		"@web": "yarn workspace @minhoryang/react-pwa-ui",
+		"build": "yarn @web build && cp -r packages/react-pwa-ui/dist/* packages/hono-api/public/ && yarn @api build",
+		"clean": "yarn workspaces run clean",
+		"lint": "dprint fmt"
+	},
+	"packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+}
