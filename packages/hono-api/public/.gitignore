@@ -1,3 +1,5 @@
 assets/
 index.html
-vite.svg
+*.png
+*.webp
+*.json
