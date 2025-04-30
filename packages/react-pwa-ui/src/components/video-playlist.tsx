@@ -59,7 +59,7 @@ export default function VideoPlaylist({
 							className="rounded-full w-8 h-8 flex items-center justify-center active:bg-gray-800 transition-colors"
 							aria-label="Refresh"
 						>
-							<Camera size={18} className={`text-green-500`} />
+							<Camera size={18} className={`text-green-300`} />
 						</button>
 					) : (
 						<button
@@ -67,7 +67,7 @@ export default function VideoPlaylist({
 							className="rounded-full w-8 h-8 flex items-center justify-center active:bg-gray-800 transition-colors"
 							aria-label="Refresh"
 						>
-							<CameraOff size={18} className={`text-red-500`} />
+							<CameraOff size={18} className={`text-red-300`} />
 						</button>
 					)}
 					<button
