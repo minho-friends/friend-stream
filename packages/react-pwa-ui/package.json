@@ -6,7 +6,7 @@
 	"scripts": {
 		"build": "tsc -b && vite build",
 		"clean": "rm -rf dist",
-		"dev": "vite",
+		"dev": "DEV=1 vite",
 		"preview": "vite preview"
 	},
 	"dependencies": {

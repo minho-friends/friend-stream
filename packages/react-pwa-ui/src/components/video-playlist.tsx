@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { RefreshCw, MoreVertical } from "lucide-react";
+import { Camera, CameraOff, RefreshCw, MoreVertical } from "lucide-react";
 import { formatRelativeTime } from "../utils/date-formatter";
 
 interface Video {
@@ -24,6 +24,7 @@ export default function VideoPlaylist({
 	updateVideos,
 }: VideoPlaylistProps) {
 	const [refreshing, setRefreshing] = useState(false);
+	const [videoOn, setVideoOn] = useState(true);
 	const [lastRefresh, setLastRefresh] = useState(Date.now());
 	const onRefresh = () => {
 		updateVideos();
@@ -38,7 +39,11 @@ export default function VideoPlaylist({
 	const handleVideoClick = (videoId: number) => {
 		const video = videos.find((v) => v.id === videoId);
 		if (video?.streamUrl) {
-			window.open(video.streamUrl, "_blank");
+			if (videoOn) {
+				window.open(video.streamUrl, "_blank");
+			} else {
+				window.open(`${video.streamUrl}?audio=1`, "_blank");
+			}
 		}
 	};
 
@@ -47,17 +52,36 @@ export default function VideoPlaylist({
 			{/* iOS-style header */}
 			<div className="sticky top-0 z-10 bg-black flex items-center justify-between px-4 py-3 border-b border-gray-800">
 				<h1 className="text-lg font-semibold">Live</h1>
-				<button
-					onClick={onRefresh}
-					disabled={refreshing}
-					className="rounded-full w-8 h-8 flex items-center justify-center active:bg-gray-800 transition-colors"
-					aria-label="Refresh"
-				>
-					<RefreshCw
-						size={18}
-						className={`text-white ${refreshing ? "animate-spin" : ""}`}
-					/>
-				</button>
+				<div className="flex items-center gap-2">
+					{videoOn ? (
+						<button
+							onClick={() => setVideoOn(false)}
+							className="rounded-full w-8 h-8 flex items-center justify-center active:bg-gray-800 transition-colors"
+							aria-label="Refresh"
+						>
+							<Camera size={18} className={`text-green-500`} />
+						</button>
+					) : (
+						<button
+							onClick={() => setVideoOn(true)}
+							className="rounded-full w-8 h-8 flex items-center justify-center active:bg-gray-800 transition-colors"
+							aria-label="Refresh"
+						>
+							<CameraOff size={18} className={`text-red-500`} />
+						</button>
+					)}
+					<button
+						onClick={onRefresh}
+						disabled={refreshing}
+						className="rounded-full w-8 h-8 flex items-center justify-center active:bg-gray-800 transition-colors"
+						aria-label="Refresh"
+					>
+						<RefreshCw
+							size={18}
+							className={`text-white ${refreshing ? "animate-spin" : ""}`}
+						/>
+					</button>
+				</div>
 			</div>
 
 			{/* Video list */}
