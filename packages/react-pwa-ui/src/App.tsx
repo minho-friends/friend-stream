@@ -5,13 +5,16 @@ import VideoPlaylist from "./components/video-playlist.tsx";
 import EmptyStateView from "./components/empty-state-view.tsx";
 
 export default function Home() {
+	const _ = import.meta.env.DEV
+		? "http://localhost:8787/api/streams"
+		: "/api/streams";
 	const {
 		data: videos = [],
 		error,
 		mutate,
 	} = useSWR(
-		"/api/streams",
-		(url) =>
+		_,
+		(url: string) =>
 			fetch(url).then((res) => {
 				if (!res.ok) {
 					throw new Error("Network response was not ok");

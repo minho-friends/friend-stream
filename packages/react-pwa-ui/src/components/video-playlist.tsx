@@ -103,7 +103,7 @@ export default function VideoPlaylist({
 													: "/offline.webp"
 											}
 											alt={video.title}
-											className={`w-full object-cover ${refreshing ? "opacity-50" : "opacity-100"} transition-opacity duration-500`}
+											className={`w-full object-cover ${refreshing ? "opacity-50" : "opacity-100"} transition-opacity duration-500 ${videoOn ? "grayscale-0" : "grayscale"}`}
 											key={`${video.id}-${refreshing ? "refreshing" : "idle"}`}
 										/>
 									</div>
