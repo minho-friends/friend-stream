@@ -1,10 +1,10 @@
 {
-	"name": "@minhoryang/monorepo-hono-react",
+	"name": "@minho-friends/friend-stream",
 	"private": true,
 	"workspaces": ["packages/*"],
 	"scripts": {
-		"@api": "yarn workspace @minhoryang/hono-api",
-		"@web": "yarn workspace @minhoryang/react-pwa-ui",
+		"@api": "yarn workspace @minho-friends/friend-stream-api",
+		"@web": "yarn workspace @minho-friends/friend-stream-web",
 		"build": "yarn @web build && cp -r packages/react-pwa-ui/dist/* packages/hono-api/public/ && yarn @api build",
 		"clean": "yarn workspaces run clean",
 		"lint": "dprint fmt"

@@ -17,11 +17,17 @@ interface Video {
 interface VideoPlaylistProps {
 	videos: Video[];
 	updateVideos: () => void;
+	chns: string | undefined;
+	setChns: (chns: string | undefined) => void;
+	isAndroid: boolean;
 }
 
 export default function VideoPlaylist({
 	videos,
 	updateVideos,
+	chns,
+	setChns,
+	isAndroid,
 }: VideoPlaylistProps) {
 	const [refreshing, setRefreshing] = useState(false);
 	const [videoOn, setVideoOn] = useState(true);
@@ -36,13 +42,41 @@ export default function VideoPlaylist({
 		}, 1500);
 	};
 
+	const [debugCnt, setDebugCnt] = useState<number>(0);
+	const [debugTimeout, setDebugTimeout] = useState<number | null>(null);
+	const onDebug = () => {
+		setDebugCnt((prev) => prev + 1);
+		if (!debugTimeout) {
+			setDebugTimeout(
+				setTimeout(() => {
+					setDebugCnt(0);
+					setDebugTimeout(null);
+				}, 3000),
+			);
+		}
+		if (debugCnt >= 5) {
+			const override = prompt("Debug mode enabled", chns);
+			if (!override) {
+				setChns(undefined);
+			} else {
+				setChns(override);
+			}
+		}
+	};
+
 	const handleVideoClick = (videoId: number) => {
 		const video = videos.find((v) => v.id === videoId);
 		if (video?.streamUrl) {
+			let url = video.streamUrl;
 			if (videoOn) {
-				window.open(video.streamUrl, "_blank");
+				url = url;
 			} else {
-				window.open(`${video.streamUrl}?audio=1`, "_blank");
+				url = `${url}?audio=1`;
+			}
+			if (isAndroid) {
+				window.open(`vlc://${location.origin}${url}`, "_blank");
+			} else {
+				window.open(url, "_blank");
 			}
 		}
 	};
@@ -51,7 +85,13 @@ export default function VideoPlaylist({
 		<div className="flex flex-col h-full">
 			{/* iOS-style header */}
 			<div className="sticky top-0 z-10 bg-black flex items-center justify-between px-4 py-3 border-b border-gray-800">
-				<h1 className="text-lg font-semibold">Live</h1>
+				<h1
+					className="text-lg font-semibold"
+					onClick={onDebug}
+					onTouchStart={onDebug}
+				>
+					Live
+				</h1>
 				<div className="flex items-center gap-2">
 					{videoOn ? (
 						<button

@@ -53,7 +53,7 @@ const _stream = async (
 
 app.get("/api/streams", async (c) => {
 	const client_id = await _client_id(c.env.cookie_domain);
-	const chns = c.env.chns.split(",");
+	const chns = (c.req.query("chns") || c.env.chns).split(",");
 	const streams = await Promise.all(
 		chns.map((chn) => _stream(client_id, c.env.api_stream_info, chn)),
 	).then((data) => data.map((item, idx) => ({ ...item, id: idx })));
