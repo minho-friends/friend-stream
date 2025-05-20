@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Camera, CameraOff, RefreshCw, MoreVertical } from "lucide-react";
 import { formatRelativeTime } from "../utils/date-formatter";
+import DebugTitleH1 from "./debug-title-h1";
 
 interface Video {
 	id: number;
@@ -19,7 +20,7 @@ interface VideoPlaylistProps {
 	updateVideos: () => void;
 	chns: string | undefined;
 	setChns: (chns: string | undefined) => void;
-	isAndroid: boolean;
+	// isAndroid: boolean;
 }
 
 export default function VideoPlaylist({
@@ -27,7 +28,7 @@ export default function VideoPlaylist({
 	updateVideos,
 	chns,
 	setChns,
-	isAndroid,
+	// isAndroid,
 }: VideoPlaylistProps) {
 	const [refreshing, setRefreshing] = useState(false);
 	const [videoOn, setVideoOn] = useState(true);
@@ -42,28 +43,6 @@ export default function VideoPlaylist({
 		}, 1500);
 	};
 
-	const [debugCnt, setDebugCnt] = useState<number>(0);
-	const [debugTimeout, setDebugTimeout] = useState<number | null>(null);
-	const onDebug = () => {
-		setDebugCnt((prev) => prev + 1);
-		if (!debugTimeout) {
-			setDebugTimeout(
-				setTimeout(() => {
-					setDebugCnt(0);
-					setDebugTimeout(null);
-				}, 3000),
-			);
-		}
-		if (debugCnt >= 5) {
-			const override = prompt("Debug mode enabled", chns);
-			if (!override) {
-				setChns(undefined);
-			} else {
-				setChns(override);
-			}
-		}
-	};
-
 	const handleVideoClick = (videoId: number) => {
 		const video = videos.find((v) => v.id === videoId);
 		if (video?.streamUrl) {
@@ -73,11 +52,12 @@ export default function VideoPlaylist({
 			} else {
 				url = `${url}?audio=1`;
 			}
-			if (isAndroid) {
-				window.open(`vlc://${location.origin}${url}`, "_blank");
-			} else {
-				window.open(url, "_blank");
-			}
+			// NOTE(ISSUE): Android VLC not working as expected
+			// if (isAndroid) {
+			// 	window.open(`vlc://${location.origin}${url}`, "_blank");
+			// } else {
+			window.open(url, "_blank");
+			// }
 		}
 	};
 
@@ -85,13 +65,7 @@ export default function VideoPlaylist({
 		<div className="flex flex-col h-full">
 			{/* iOS-style header */}
 			<div className="sticky top-0 z-10 bg-black flex items-center justify-between px-4 py-3 border-b border-gray-800">
-				<h1
-					className="text-lg font-semibold"
-					onClick={onDebug}
-					onTouchStart={onDebug}
-				>
-					Live
-				</h1>
+				<DebugTitleH1 chns={chns} setChns={setChns} />
 				<div className="flex items-center gap-2">
 					{videoOn ? (
 						<button

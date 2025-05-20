@@ -27,6 +27,7 @@ const _stream = async (
 	api_stream_info: string,
 	id: string,
 ) => {
+	if (!id) return;
 	const response = await fetch(`${api_stream_info}/${id}`, {
 		headers: {
 			Accept: "application/json",
@@ -37,6 +38,7 @@ const _stream = async (
 			"region-code": "GLOBAL",
 		},
 	});
+	if (!response.ok) return;
 	const data = await response.json();
 	const isStream = data.data.isStream;
 	const streamUrl = isStream ? `/live/${id}/master.m3u8` : "";
@@ -56,7 +58,9 @@ app.get("/api/streams", async (c) => {
 	const chns = (c.req.query("chns") || c.env.chns).split(",");
 	const streams = await Promise.all(
 		chns.map((chn) => _stream(client_id, c.env.api_stream_info, chn)),
-	).then((data) => data.map((item, idx) => ({ ...item, id: idx })));
+	).then((data) =>
+		data.filter((item) => !!item).map((item, idx) => ({ ...item, id: idx })),
+	);
 	return c.json(streams);
 });
 
