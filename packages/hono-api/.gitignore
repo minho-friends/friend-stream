@@ -31,3 +31,7 @@ lerna-debug.log*
 
 # misc
 .DS_Store
+
+# FIXME: forcing to ignore this for now
+# $ git update-index --assume-unchanged wrangler.jsonc
+wrangler.jsonc
