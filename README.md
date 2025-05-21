@@ -14,7 +14,7 @@ $ yarn @api deploy
 ```
 (http.host wildcard "REDACTED" and http.request.uri.path eq "/api/streams" and ip.src.asnum ne 13335)
 or (http.host wildcard "REDACTED" and http.request.uri.path eq "/api/streams" and not cf.tls_client_auth.cert_verified)
-or (http.host wildcard "REDACTED" and http.request.uri.path wildcard r"/live/*" and ip.src.asnum eq 13335)
+or (http.host wildcard "REDACTED" and http.request.uri.path wildcard r"/live/*" and ip.src.asnum ne 13335)
 or (http.host wildcard "REDACTED" and http.request.uri.path wildcard r"/live/*" and not cf.tls_client_auth.cert_verified)
 ```
 
