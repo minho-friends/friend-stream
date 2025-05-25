@@ -1,11 +1,11 @@
 {
 	"name": "@minho-friends/friend-stream",
 	"private": true,
-	"workspaces": ["packages/*"],
+	"workspaces": ["packages/@minho-friends/*"],
 	"scripts": {
 		"@api": "yarn workspace @minho-friends/friend-stream-api",
 		"@web": "yarn workspace @minho-friends/friend-stream-web",
-		"build": "yarn @web build && cp -r packages/react-pwa-ui/dist/* packages/hono-api/public/ && yarn @api build",
+		"build": "yarn @web build && cp -r packages/@minho-friends/friend-stream-web/dist/* packages/@minho-friends/friend-stream-api/public/ && yarn @api build",
 		"clean": "yarn workspaces run clean",
 		"lint": "dprint fmt"
 	},

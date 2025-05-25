@@ -3,7 +3,7 @@
 ```bash
 $ yarn
 $ yarn clean
-# TODO: inject the vars(envs) at `./packages/hono-api/wrangler.jsonc`.
+# TODO: inject the vars(envs) at `./packages/@minho-friends/friend-stream-api/wrangler.jsonc`.
 $ yarn build
 $ yarn @api deploy
 ```
